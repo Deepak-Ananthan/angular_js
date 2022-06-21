@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    var app = angular.module("myApp", []);
+    app.run(function ($rootScope) {
+        $rootScope.bd = "dd";
+    })
+    app.controller("myCtrl", function ($scope) {
+        $scope.firstName = "Deepak";
+        $scope.lastName = "kd";
+    });
+    app.directive("weTestdire0", function () {
+        return {
+            template: "<h1>Made by a directive!</h1>"
+        };
+    })
+
+</script>
+
+<body>
+
+    <p>Try to change the names.</p>
+
+    <div ng-app="myApp" ng-init="firstName='lightblue'">
+
+        Full Name: {{firstName + " " + lastName}}
+        <div ng-controller="myCtrl"></div>
+
+        First Name: <input type="text" ng-model="firstName"><br>
+        Last Name: <input type="text" ng-model="lastName"><br>
+        <br>
+    </div>
+
+
+</body>
+
+</html>
+
+<!--
+    ng-app
+    ng-init
+    ng-controller
+    rotscope vs controller scope
+    ng-repeat ==> *ngFor
+    ng-show ng-hide
+    ng-if
+    ng-value
+    ng-disabled
+    ng-options
+    ng=include= for external html templet inside a div <div ng-incljude="sbc.html">
+    diretovr ==> camecase and to call "we-test-directive" for WeTestDirective also
+    Restirct atrinute E for Element name
+    A for Attribute
+    C for Class
+    M for Comment
+      replace : true, for direcvtive to be called as comments -- 
+  """opentag!-- directive: w3-test-directive --closeingtag
+
+    ng-bind or {{}}
+    filter -==> {{variable | filtername :optionalparams}}currency, iuppercase,date,orderby. filter
+    custom filter==> app.filter("filternma", function(){
+        return function(x){
+            x here is the variable passed to filter
+        }
+    })
+services -==> must be passed to the constroller along with $scope..
+1) $location  similar to window object.. 
+2) $http =  $http.get("welcome.htm").then(function (response) {
+      $scope.myWelcome = response.data;
+  }).catch(function(){
+  $scope.myWelcome = "hi";})
+
+    $http({
+    method : "GET",
+      url : "welcome.htm"
+  }).then(function mySuccess(response) {
+    $scope.myWelcome = response.data;
+  }, function myError(response) {
+    $scope.myWelcome = response.statusText;
+  });
+});
+
+The response from the server is an object with these properties:
+.config 
+.data 
+.headers
+.status 
+.statusText 
+3)$timeout
+3) $interval
+4) custom service == app.service('hexafy', function() {
+  this.myFunc = function (x) {
+    return x.toString(16);
+  }
+}); to use the developed custom service === below
+app.controller('myCtrl', function($scope, hexafy) {
+  $scope.hex = hexafy.myFunc(255);
+});
+app.filter('myFormat',['hexafy', function(hexafy) {
+  return function(x) {
+    return hexafy.myFunc(x);
+  };
+  
+  ng-repeat-- accesing index in html -? also $odd, $even are available <table>
+  <tr ng-repeat="x in names">
+    <td>{{ $index + 1 }}</td>
+    <td>{{ x.Name }}</td>
+    <td>{{ x.Country }}</td>
+  </tr>
+</table>
+se;ect box
+<select ng-model="selectedName" ng-options="x for x in names">
+</select>
+<select ng-model="selectedCar">
+  <option ng-repeat="x in cars" value="{{x.model}}">{{x.model}}</option>
+</select> 
+When using the value as an object, use ng-value insead of value: ==> if ng-value="{{x}}"
+ng-options="x for (x, y) in cars"> == to iterate in objects,, here it will shoqw key in options on selecting value stored in ngmodel of selecet box is corres value
+x= key y = value
+ {
+        car01 : {brand : "Ford", model : "Mustang", color : "red"},
+        car02 : {brand : "Fiat", model : "500", color : "white"},
+        car03 : {brand : "Volvo", model : "XC90", color : "black"}
+    }if braNDS NEEDED IN OPTIONS ITY WILL BE Y.BRAND FOR (X,Y) IN CAR
+master={name:"dD", age: 32}
+     $scope.user = angular.copy($scope.master); --=> shallow copy .. changing only value doesnot chanfe other
+//ly angular.uppercase, lowercase is NUmber , isString
+
+    Forms 
+    for input firellds== 
+    $untouched The field has not been touched yet
+$touched The field has been touched
+$pristine The field has not been modified yet
+$dirty The field has been modified
+$invalid The field content is not valid
+$valid The field content is valid
+
+ for forms : $pristine No fields have been modified yet
+$dirty One or more have been modified
+$invalid The form content is not valid
+$valid The form content is valid
+$submitted The form is submitted
+
+also css classes input.ng-invalid { clor : red}
+specific err ng-valid-key -- ng-valid-required>
+
+to add cross doamin link like w3schoools inside your html in ng-include..=>
+app.config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    'https://tryit.w3schools.com/**'
+  ]);
+});
+ROuting : app.config(function($routeProvider) {
+  $routeProvider
+  .when("/", {
+    templateUrl : "main.htm"
+  })
+  .when("/red", {
+    templateUrl : "red.htm"
+  })
+  .when("/green", {
+    templateUrl : "green.htm"
+  })
+  .when("/blue", {
+    templateUrl : "blue.htm"
+  });
+});
+
+<router outlet > maari inga "ng-view"
+
+to add controller along with routes 
+    app.config(function($routeProvider) {
+    $routeProvider
+    .when("/", {
+        templateUrl : "main.htm",
+    })
+    .when("/london", {
+        templateUrl : "london.htm",
+        controller : "londonCtrl"
+    })
+    .when("/paris", {
+        templateUrl : "paris.htm",
+        controller : "parisCtrl"
+    })
+     .otherwise({ ==>> wildcard route **
+    template : "<h1>None</h1><p>Nothing has been selected</p>"
+  });
+});
+app.controller("londonCtrl", function ($scope) {
+    $scope.msg = "I love London";
+});
+app.controller("parisCtrl", function ($scope) {
+    $scope.msg = "I love Paris";
+});
+-->

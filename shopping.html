@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script>
+        var app = angular.module("shopping", []);
+        app.controller("cont", function ($scope) {
+            $scope.arr = ["Milk", "Bread", "Cheese"];
+            $scope.clicked = function () {
+                if ($scope.addList) {
+                    $scope.arr.push($scope.addList);
+                    $scope.addList = "";
+                }
+            };
+            $scope.delete = function (index) {
+                $scope.arr.splice(index, 1);
+            }
+        })
+    </script>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            margin: auto;
+            width: 50%;
+            margin-top: auto;
+        }
+
+        .head {
+            text-align: center;
+        }
+
+        .btn {
+            width: 20%;
+            align-self: center;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body ng-app="shopping" ng-controller="cont">
+    <div class="container">
+        <div class="head">S H O P P I N G L I S T</div>
+        <input type="text" ng-model="addList">
+        <button class="btn" ng-click="clicked()">Add me</button>
+        <ul>
+            <li ng-repeat="x in arr">{{$index}}.{{x}} <button class="btn" ng-click="delete($index)">Delete</button></li>
+        </ul>
+    </div>
+
+</body>
+
+</html>
